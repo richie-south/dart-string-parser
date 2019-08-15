@@ -1,7 +1,12 @@
-A library for Dart developers.
+# rich_string_parser
+Parse multible different values in one string.
 
-Created from templates made available by Stagehand under a BSD-style
-[license](https://github.com/dart-lang/stagehand/blob/master/LICENSE).
+## install
+
+```yaml
+dependencies:
+  rich_string_parser: ^1.0.0
+```
 
 ## Usage
 
@@ -11,7 +16,58 @@ A simple usage example:
 import 'package:rich_string_parser/rich_string_parser.dart';
 
 main() {
-  var awesome = new Awesome();
+  List<dynamic> result = runParser(
+    'text to be parsed example@example.com @(123|example)',
+    [
+      EmailParser(),
+      LinkParser(),
+      MentionParser(),
+    ]
+  );
+
+  print(result); // >> ['text to be parsed ' Instance of 'EmailMatch', ' ', Instance of 'MentionMatch']
+}
+```
+
+## Create own parser
+
+
+```dart
+import 'package:rich_string_parser/rich_string_parser.dart';
+
+class OwnMatch {
+  String value;
+  OwnMatch(
+    this.value,
+  );
+}
+
+class OwnParser extends Parser {
+  RegExp regex = RegExp(
+    '(hello)',
+    multiLine: true,
+    unicode: true
+  );
+
+  @override
+  OwnMatch converter(String own) {
+    return OwnMatch(
+      own
+    );
+  }
+}
+
+main() {
+  List<dynamic> result = runParser(
+    'text to be parsed (hello)',
+    [
+      EmailParser(),
+      LinkParser(),
+      OwnParser(),
+    ]
+  );
+
+  print(result); // >> ['text to be parsed ', Instance of 'OwnMatch']
 }
 ```
 
