@@ -32,6 +32,34 @@ void main() {
     });
   });
 
+  group('Should find links', () {
+    test("find link", () {
+      var string = ' asd https://plantr.online asd ';
+      List<dynamic> result = richStringParser(
+        string,
+        [
+          LinkParser(),
+        ]
+      );
+
+      expect(result.length, equals(3));
+      expect(result, equals([' asd ', isA<LinkMatch>(), ' asd ']));
+    });
+
+    test("find all links", () {
+      var string = ' asd http://richardsoderman.se asd https://plantr.online hej';
+      List<dynamic> result = richStringParser(
+        string,
+        [
+          LinkParser(),
+        ]
+      );
+
+      expect(result.length, equals(5));
+      expect(result, equals([' asd ', isA<LinkMatch>(), ' asd ', isA<LinkMatch>(), ' hej']));
+    });
+  });
+
   group('Should find emails', () {
     test("Should find email", () {
       var string = ' asd asd@asd.com hej';
