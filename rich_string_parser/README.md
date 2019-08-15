@@ -16,7 +16,7 @@ A simple usage example:
 import 'package:rich_string_parser/rich_string_parser.dart';
 
 main() {
-  List<dynamic> result = runParser(
+  List<dynamic> result = richStringParser(
     'text to be parsed example@example.com @(123|example)',
     [
       EmailParser(),
@@ -58,7 +58,7 @@ class OwnParser extends Parser {
 }
 
 main() {
-  List<dynamic> result = runParser(
+  List<dynamic> result = richStringParser(
     'text to be parsed (hello)',
     [
       EmailParser(),
