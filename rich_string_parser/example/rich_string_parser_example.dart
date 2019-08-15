@@ -30,7 +30,7 @@ void main() {
     [ EmailParser() ]
   );
 
-  // => ['hello world ',  Instance of 'EmailMatch', ' asd']
+  // => ['hello world ', Instance of 'EmailMatch', ' asd']
   print(singleParserResult);
 
   // single parser
