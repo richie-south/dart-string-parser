@@ -12,21 +12,12 @@ class MentionMatch {
 }
 
 class MentionParser extends Parser {
-  RegExp regex = RegExp(
-    '@\\(\\d+\\|(.+?)\\)',
-    multiLine: true,
-    unicode: true
-  );
+  RegExp regex = RegExp('@\\(\\d+\\|(.+?)\\)', multiLine: true, unicode: true);
 
   @override
   MentionMatch converter(String mention) {
-    return MentionMatch(
-      int.parse(mention.substring(2, mention.indexOf('|'))),
-      mention.substring(
-        mention.indexOf('|') + 1,
-        mention.length - 1
-      )
-    );
+    return MentionMatch(int.parse(mention.substring(2, mention.indexOf('|'))),
+        mention.substring(mention.indexOf('|') + 1, mention.length - 1));
   }
 }
 

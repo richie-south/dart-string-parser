@@ -1,9 +1,6 @@
 import './parsers.dart';
 
-List<dynamic> _runTextParser(
-  dynamic parser,
-  String text
-) {
+List<dynamic> _runTextParser(dynamic parser, String text) {
   final List<dynamic> contentList = [];
 
   if (text == null || text.isEmpty) {
@@ -27,24 +24,16 @@ List<dynamic> _runTextParser(
 
   contentList.add(parser.converter(match.group(0)));
 
-  contentList.addAll(
-    _runTextParser(
-      parser,
-      text
-    )
-  );
+  contentList.addAll(_runTextParser(parser, text));
 
   return contentList;
 }
 
-
-List<dynamic> runParser(
-  dynamic parser,
-  {
-    String text,
-    List<dynamic> list,
-  }
-) {
+List<dynamic> _runParser(
+  dynamic parser, {
+  String text,
+  List<dynamic> list,
+}) {
   final List<dynamic> contentList = [];
 
   if (list != null && list.isNotEmpty) {
@@ -63,12 +52,8 @@ List<dynamic> runParser(
     });
 
     return _contentList.expand((f) => f is List ? f : [f]).toList();
-
   } else if (text != null && text.isNotEmpty) {
-
-    contentList.addAll(
-      _runTextParser(parser, text)
-    );
+    contentList.addAll(_runTextParser(parser, text));
   }
 
   return contentList;
@@ -85,15 +70,10 @@ List<dynamic> richStringParser(
   }
 
   parsers.forEach((parser) {
-    contentList =
-      runParser(
-        parser,
-        text: contentList.isEmpty
-          ? text
-          : null,
-        list: contentList.isNotEmpty
-          ? contentList
-          : null,
+    contentList = _runParser(
+      parser,
+      text: contentList.isEmpty ? text : null,
+      list: contentList.isNotEmpty ? contentList : null,
     );
   });
 
