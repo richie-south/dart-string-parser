@@ -14,8 +14,8 @@ List<dynamic> _runTextParser(dynamic parser, String text) {
     return contentList;
   }
 
-  String asd = match.group(0);
-  var values = text.split(asd);
+  String groupZero = match.group(0);
+  var values = text.split(groupZero);
   text = text.substring(match.end, text.length);
 
   if (values[0].isNotEmpty) {

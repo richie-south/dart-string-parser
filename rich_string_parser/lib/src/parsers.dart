@@ -2,13 +2,22 @@ abstract class Parser {
   dynamic converter(String v);
 }
 
-class MentionMatch {
+abstract class ParserMatch {
+  String match;
+
+  ParserMatch(this.match);
+}
+
+class MentionMatch extends ParserMatch {
+  String match;
   int id;
   String name;
+
   MentionMatch(
+    this.match,
     this.id,
     this.name,
-  );
+  ): super(match);
 }
 
 class MentionParser extends Parser {
@@ -16,14 +25,17 @@ class MentionParser extends Parser {
 
   @override
   MentionMatch converter(String mention) {
-    return MentionMatch(int.parse(mention.substring(2, mention.indexOf('|'))),
-        mention.substring(mention.indexOf('|') + 1, mention.length - 1));
+    return MentionMatch(
+      mention,
+      int.parse(mention.substring(2, mention.indexOf('|'))),
+      mention.substring(mention.indexOf('|') + 1, mention.length - 1)
+    );
   }
 }
 
-class EmailMatch {
-  String value;
-  EmailMatch(this.value);
+class EmailMatch extends ParserMatch {
+  String match;
+  EmailMatch(this.match): super(match);
 }
 
 class EmailParser extends Parser {
@@ -38,9 +50,9 @@ class EmailParser extends Parser {
   }
 }
 
-class LinkMatch {
-  String value;
-  LinkMatch(this.value);
+class LinkMatch  extends ParserMatch {
+  String match;
+  LinkMatch(this.match): super(match);
 }
 
 class LinkParser extends Parser {
