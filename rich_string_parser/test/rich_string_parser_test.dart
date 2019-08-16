@@ -117,5 +117,35 @@ void main() {
       expect(result, equals([' asd ', isA<EmailMatch>(), ' asd ', isA<MentionMatch>(), 'asd ', isA<MentionMatch>(), ' ', isA<EmailMatch>()]));
     });
   });
+
+  group('Should not find any matches', () {
+    test("Should not find email", () {
+      var string = ' asd asd hello hej';
+      List<dynamic> result = richStringParser(
+        string,
+        [
+          EmailParser(),
+        ]
+      );
+
+      expect(result.length, equals(1));
+      expect(result, equals([' asd asd hello hej']));
+    });
+
+    test("Should find all email or mention", () {
+      var string = ' asd eric asd asd example asd';
+      List<dynamic> result = richStringParser(
+        string,
+        [
+          EmailParser(),
+          MentionParser(),
+        ]
+      );
+
+      expect(result.length, equals(1));
+      expect(result, equals([' asd eric asd asd example asd']));
+    });
+  });
+
 }
 
