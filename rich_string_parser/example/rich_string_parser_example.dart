@@ -1,10 +1,10 @@
 import 'package:rich_string_parser/rich_string_parser.dart';
 
-class OwnMatch {
-  String value;
+class OwnMatch extends ParserMatch {
+  String match;
   OwnMatch(
-    this.value,
-  );
+    this.match,
+  ): super(match);
 }
 
 class OwnParser extends Parser {

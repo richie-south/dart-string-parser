@@ -35,7 +35,7 @@ main() {
 ```dart
 import 'package:rich_string_parser/rich_string_parser.dart';
 
-class OwnMatch {
+class OwnMatch extends ParserMatch {
   String value;
   OwnMatch(
     this.value,
