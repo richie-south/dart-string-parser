@@ -1,29 +1,27 @@
 import './parsers.dart';
 
 List<dynamic> _runTextParser(dynamic parser, String text) {
-  final List<dynamic> contentList = [];
-
-  if (text == null || text.isEmpty) {
-    return contentList;
+  if (text.isEmpty) {
+    return [];
   }
 
   final match = parser.regex.firstMatch(text);
 
   if (match == null) {
-    contentList.add(text);
-    return contentList;
+    return [text];
   }
 
   String groupZero = match.group(0);
-  var values = text.split(groupZero);
+  List<String> values = text.split(groupZero);
   text = text.substring(match.end, text.length);
+
+  final List<dynamic> contentList = [];
 
   if (values[0].isNotEmpty) {
     contentList.add(values[0]);
   }
 
   contentList.add(parser.converter(match.group(0)));
-
   contentList.addAll(_runTextParser(parser, text));
 
   return contentList;
@@ -34,7 +32,6 @@ List<dynamic> _runParser(
   String text,
   List<dynamic> list,
 }) {
-  final List<dynamic> contentList = [];
 
   if (list != null && list.isNotEmpty) {
     final List<dynamic> _contentList = list;
@@ -42,7 +39,7 @@ List<dynamic> _runParser(
     int index = 0;
     list.forEach((dynamic item) {
       if (item is String) {
-        var subList = _runTextParser(parser, item);
+        List<dynamic> subList = _runTextParser(parser, item);
 
         _contentList.removeAt(index);
         _contentList.insert(index, subList);
@@ -52,11 +49,9 @@ List<dynamic> _runParser(
     });
 
     return _contentList.expand((f) => f is List ? f : [f]).toList();
-  } else if (text != null && text.isNotEmpty) {
-    contentList.addAll(_runTextParser(parser, text));
   }
 
-  return contentList;
+  return _runTextParser(parser, text);
 }
 
 List<dynamic> richStringParser(
@@ -72,8 +67,8 @@ List<dynamic> richStringParser(
   parsers.forEach((parser) {
     contentList = _runParser(
       parser,
-      text: contentList.isEmpty ? text : null,
-      list: contentList.isNotEmpty ? contentList : null,
+      text: contentList.isEmpty ? text : '',
+      list: contentList.isNotEmpty ? contentList : [],
     );
   });
 
