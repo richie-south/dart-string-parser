@@ -1,6 +1,6 @@
 import './parsers.dart';
 
-List<dynamic> _runTextParser(dynamic parser, String text) {
+List<dynamic> _runTextParser(Parser parser, String text) {
   if (text.isEmpty) {
     return [];
   }
@@ -28,37 +28,32 @@ List<dynamic> _runTextParser(dynamic parser, String text) {
 }
 
 List<dynamic> _runParser(
-  dynamic parser, {
+  Parser parser, {
   String text,
   List<dynamic> list,
 }) {
+  final List<dynamic> _contentList = list;
 
-  if (list != null && list.isNotEmpty) {
-    final List<dynamic> _contentList = list;
+  int index = 0;
+  list.forEach((dynamic item) {
+    if (item is String) {
+      List<dynamic> subList = _runTextParser(parser, item);
 
-    int index = 0;
-    list.forEach((dynamic item) {
-      if (item is String) {
-        List<dynamic> subList = _runTextParser(parser, item);
+      _contentList.removeAt(index);
+      _contentList.insert(index, subList);
+    }
 
-        _contentList.removeAt(index);
-        _contentList.insert(index, subList);
-      }
+    index += 1;
+  });
 
-      index += 1;
-    });
-
-    return _contentList.expand((f) => f is List ? f : [f]).toList();
-  }
-
-  return _runTextParser(parser, text);
+  return _contentList.expand((f) => f is List ? f : [f]).toList();
 }
 
 List<dynamic> richStringParser(
   String text,
   List<Parser> parsers,
 ) {
-  List<dynamic> contentList = [];
+  List<dynamic> contentList = [text];
 
   if (text == null || text.isEmpty) {
     return contentList;
@@ -73,7 +68,7 @@ List<dynamic> richStringParser(
     contentList = _runParser(
       parser,
       text: contentList.isEmpty ? text : '',
-      list: contentList.isNotEmpty ? contentList : [],
+      list: contentList,
     );
   });
 
