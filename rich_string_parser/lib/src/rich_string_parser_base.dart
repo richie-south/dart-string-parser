@@ -64,6 +64,11 @@ List<dynamic> richStringParser(
     return contentList;
   }
 
+  parsers = parsers
+    .where(
+      (parser) => parser.regex.hasMatch(text)
+    ).toList();
+
   parsers.forEach((parser) {
     contentList = _runParser(
       parser,
