@@ -1,4 +1,5 @@
 abstract class Parser {
+  RegExp regex;
   dynamic converter(String v);
 }
 
