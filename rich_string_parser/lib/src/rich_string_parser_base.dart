@@ -29,7 +29,6 @@ List<dynamic> _runTextParser(Parser parser, String text) {
 
 List<dynamic> _runParser(
   Parser parser, {
-  String text,
   List<dynamic> list,
 }) {
   final List<dynamic> _contentList = list;
@@ -67,7 +66,6 @@ List<dynamic> richStringParser(
   parsers.forEach((parser) {
     contentList = _runParser(
       parser,
-      text: contentList.isEmpty ? text : '',
       list: contentList,
     );
   });
