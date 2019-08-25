@@ -1,6 +1,6 @@
 name: rich_string_parser
 description: A dart string parser for parsing multible different formats.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/richie-south/dart-string-parser
 author: richard soderman <richard.soderman@gmail.com>
 
